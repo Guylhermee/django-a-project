@@ -3,7 +3,7 @@ from galeria.models import Fotografia
 # Create your views here. 
 
 def index(request):   
-    fotografias = Fotografia.objects.all()  #lista de objetos criados no banco
+    fotografias = Fotografia.objects.order_by("-date").filter(publicada=True)  #lista de objetos criados no banco
     return render(request, 'galeria/index.html', {"cards": fotografias})
 
 def imagem(request, foto_id): 
