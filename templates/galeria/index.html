@@ -1,4 +1,4 @@
-{% extends 'galeria/base.html' %}
+{% extends '../base.html' %}
 {% load static %}
 {% block content %}
     <section class="conteudo">
@@ -21,7 +21,7 @@
                 <ul class="cards__lista">
                     {% if cards %}
                     {% for fotografia in cards%}
-                        <li class="card">
+                        <li class="card" id="boba">
                             <a href="{% url 'imagem' fotografia.id %}">
                                 {% if fotografia.foto == '' or fotografia.foto == null %}
                                     <img class="card__imagem" src="{% static '/assets/imagens/galeria/no-image.png' %}" alt="foto">
