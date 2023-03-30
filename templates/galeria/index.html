@@ -20,7 +20,7 @@
                 <h2 class="cards__titulo">Navegue pela galeria</h2>
                 <ul class="cards__lista">
                     {% if cards %}
-                    {% for fotografia in cards%}
+                    {% for fotografia in cards %}
                         <li class="card" id="boba">
                             <a href="{% url 'imagem' fotografia.id %}">
                                 {% if fotografia.foto == '' or fotografia.foto == null %}
@@ -29,7 +29,7 @@
                                     <img class="card__imagem" src="{{ fotografia.foto.url }}" alt="foto">
                                 {% endif %}
                             </a>
-                            <span class="card__tag">Estrelas</span>
+                            <span class="card__tag">{{fotografia.categoria}}</span>
                             <div class="card__info">
                                 <p class="card__titulo">{{fotografia.nome}}</p>
                                 <div class="card__texto">
