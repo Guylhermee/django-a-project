@@ -32,9 +32,6 @@ def cadastro(request):
     if request.method == 'POST':
         form = cadastroForms(request.POST)
         if form.is_valid:
-            if form["senhaCadastro"].value() != form["senhaRepeat"].value():
-                messages.error(request, "As senhas não batem!")
-                return redirect('cadastro')
             nome=form["nome_cadastro"].value()
             email=form["email"].value()
             senha=form["senhaCadastro"].value()

@@ -34,8 +34,7 @@ class cadastroForms(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Ex.: João Barbosa Silva",
-                "name": "nome_cadastro",                
+                "placeholder": "Ex.: João Barbosa Silva",           
             }
         )
     )
@@ -47,7 +46,6 @@ class cadastroForms(forms.Form):
             attrs={
                 "class": "form-control",
                 "placeholder": "Ex.: joaobarbosa@xpto.com",
-                "name": "email",
             }
         )
     )
@@ -59,7 +57,6 @@ class cadastroForms(forms.Form):
             attrs={
                 "class": "form-control",
                 "placeholder": "Digite sua senha",
-                "name": "password_c",
             }
         )
     )
@@ -71,7 +68,27 @@ class cadastroForms(forms.Form):
             attrs={
                 "class": "form-control",
                 "placeholder": "Digite sua senha mais uma vez",
-                "name": "password_repeat",
             }
         )
     )
+    
+    def clean_nome_cadastro(self):
+        nome = self.cleaned_data.get('nome_cadastro')
+
+        if nome:
+            nome = nome.strip()
+            if ' ' in nome:
+                raise forms.ValidationError('Espaços não são permitidos nesse campo')
+            else:
+                return nome
+    
+    def clean_senhaRepeat(self):
+        senhaCadastro = self.cleaned_data.get('senhaCadastro')
+        senhaRepeat = self.cleaned_data.get('senhaRepeat')
+
+        if senhaCadastro and senhaRepeat:
+            if senhaCadastro != senhaRepeat:
+                raise forms.ValidationError('Senhas não são iguais')
+            else:
+                return senhaRepeat
+                
