@@ -46,7 +46,6 @@ class CadastroForms(forms.Form):
             attrs={
                 "class": "form-control",
                 "placeholder": "Ex.: joaobarbosa@xpto.com",
-                "name": "email",
             }
         ),
     )
