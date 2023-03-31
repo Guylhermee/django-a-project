@@ -27,7 +27,7 @@ def buscar(request):
             fotografias = fotografias.filter(nome__icontains=nome_a_buscar) #icontains busca parte do texto
 
 
-    return render(request, "galeria/buscar.html", {"cards": fotografias})
+    return render(request, "galeria/index.html", {"cards": fotografias})
 
 def nova_imagem(request): 
     if not request.user.is_authenticated:
@@ -66,3 +66,8 @@ def deletar_imagem(request, foto_id):
     fotografia.delete()
     messages.success(request, 'Fotografia deletada com suscesso!')
     return redirect('index')
+
+def filtro(request, categoria):
+    fotografias = Fotografia.objects.order_by("-date").filter(publicada=True, categoria=categoria)
+
+    return render(request, 'galeria/index.html', {"cards": fotografias})
