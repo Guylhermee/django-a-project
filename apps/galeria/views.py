@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from apps.galeria.models import Fotografia
+from apps.galeria.forms import FotografiaForms
 from django.contrib import messages
 # Create your views here. 
 
@@ -27,3 +28,41 @@ def buscar(request):
 
 
     return render(request, "galeria/buscar.html", {"cards": fotografias})
+
+def nova_imagem(request): 
+    if not request.user.is_authenticated:
+        messages.error(request, "Usuário não logado!")
+        return redirect('login')
+
+    form = FotografiaForms
+    if request.method == 'POST':
+        form = FotografiaForms(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Nova fotografia cadastrada!')
+            return redirect('index')
+        else:
+            messages.error(request, 'Fotografia NÃO cadastrada!')
+
+    return render(request, "galeria/nova_imagem.html", {'form': form})
+
+def editar_imagem(request, foto_id): 
+    fotografia = Fotografia.objects.get(id = foto_id)
+    form = FotografiaForms(instance=fotografia)
+    if request.method == 'POST':
+        form = FotografiaForms(request.POST, request.FILES, instance=fotografia)
+
+    if form.is_valid():
+            form.save()
+            messages.success(request, 'Fotografia editada com suscesso!')
+            return redirect('index')
+    else:
+            messages.error(request, 'Fotografia NÃO editada!')
+
+    return render(request, "galeria/editar_imagem.html", {'form':form, 'foto_id':foto_id})
+
+def deletar_imagem(request, foto_id): 
+    fotografia = Fotografia.objects.get(id = foto_id)
+    fotografia.delete()
+    messages.success(request, 'Fotografia deletada com suscesso!')
+    return redirect('index')
